@@ -9,17 +9,18 @@
         </b-input-group-append>
       </b-input-group>
       <!--b-card no-body-->
-      <b-form-select v-model="selected" :options="channels" text-field="title" multiple :select-size="16"></b-form-select>
+      <b-form-select v-model="selected" :options="channels" text-field="title" @change="index(0)" multiple :select-size="16"></b-form-select>
       <!--/b-card-->
       <b-button @click="toPersonal">To personal</b-button>
       <!--b-button @click="unselect">Unselect</b-button-->
     </b-sidebar>
     <!--b-button v-b-toggle.personal class="float-right">Personal</b-button-->
     <b-sidebar id="personal" title="Personal List" width="40%" right shadow>
-      <b-form-select v-model="perSelected" :options="personal" text-field="title" multiple :select-size="16" :key="rerender"></b-form-select>
+      <b-form-select v-model="perSelected" :options="personal" text-field="title" @change="index(1)" multiple :select-size="16" :key="rerender"></b-form-select>
       <b-button @click="up_down(-1)">Up</b-button>
       <b-button @click="up_down(1)">Down</b-button>
       <b-button @click="delItems">Delete</b-button>
+      <b-button v-if="this.$store.getters.isLoggedIn" @click="save">Save</b-button>
     </b-sidebar>
     <!--b-tabs v-model="tabIndex" content-class="mt-3">
       <b-tab title="Sample">
@@ -66,8 +67,9 @@ export default {
       sampleURL: "http://c04f014174dc.akciatv.org/playlists/uplist/b239d5cc573dedb8165e3e1c2c5ebcee/playlist.m3u8",
       channels: [],
       selected: [],
+      personal: [],
       perSelected: [],
-      personal_value: [],
+      //personal_value: [],
       tabIndex: 0,
       details: '',
       prTime: new Date(),
@@ -85,38 +87,47 @@ export default {
     }
   },
   methods: {
+    index: function(ind) {
+      this.tabIndex = ind
+    },
     load: function() {
-      const url = 'load/?url=' + this.sampleURL
-      //this.$axios.get(url).then(response => (this.channels = response.data))
+      const url = `load/?url=${this.sampleURL}`
       AXIOS.get(url).then(response => (this.channels = response.data))
     },
     toPersonal: function() {
       this.perSelected = []
       this.selected.forEach(sel => { 
-        if (!this.personal_value.includes(sel)) {
-          this.personal_value.push(sel);
-          //this.perSelected.push(sel)
+        if (!this.personal.find(p => p.value == sel)) {
+          this.personal.push(this.channels.find(el => el.value == sel))
+          //this.personal_value.push(sel);
         } 
       })
-      //this.unselect()
     },
-    /*unselect: function() {
-      while (this.selected.length > 0) this.selected.pop()
-    },*/
     up_down: function(dir) {
       if ( dir == 1 ) this.perSelected.reverse()
       for (let ps of this.perSelected) {
-        let ind = this.personal_value.indexOf(ps)
+        let ind = this.personal.findIndex(p => p.value == ps)
         if (dir == -1 && ind == 0) break
-        else if (dir == 1 && ind == this.personal_value.length - 1) break
+        else if (dir == 1 && ind == this.personal.length - 1) break
         [this.personal[ind+dir], this.personal[ind]] = [this.personal[ind], this.personal[ind+dir]];
-        [this.personal_value[ind+dir], this.personal_value[ind]] = [this.personal_value[ind], this.personal_value[ind+dir]];
+        //[this.personal_value[ind+dir], this.personal_value[ind]] = [this.personal_value[ind], this.personal_value[ind+dir]];
       }
       if ( dir == 1 ) this.perSelected.reverse()
       this.rerender =!this.rerender
     },
     delItems: function() {
-      this.personal_value = this.personal_value.filter(pv => !this.perSelected.includes(pv))
+      //this.personal_value = this.personal_value.filter(pv => !this.perSelected.includes(pv))
+      this.personal = this.personal.filter(p => !this.perSelected.includes(p.value)) 
+    },
+    save: function() {
+      console.log(AXIOS.defaults.headers.common['Authorization'])
+      AXIOS.post('/save',this.personal)
+      .then(resp => {
+        console.log(resp.data)
+      })
+      .catch(err => {
+        alert(err.response.data.detail)
+      })
     },
     backward: function() {
       let t = new Date(this.details.pstart + 'Z')
@@ -133,9 +144,9 @@ export default {
     }
   },
   computed: {
-    personal: function() {
+    /*personal: function() {
       return this.channels.filter(chn => this.personal_value.includes(chn.value))
-    },
+    },*/
     source: function() {
       if ( this.tabIndex == 0 ) { 
         if (this.selected) return this.selected[0]
@@ -164,7 +175,7 @@ export default {
         video.src = this.source;
       }
     },
-    prTime: function() {
+    prTime: async function() {
       let channel_name = ''
       if ( this.tabIndex == 0 ) {
         if (this.channels) channel_name = this.channels.filter(chn => chn.value == this.source)[0].title

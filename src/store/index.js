@@ -51,7 +51,7 @@ export default new Vuex.Store({
           const pl = { token: token, user: payload.form.name }
           localStorage.setItem('token', token)
           localStorage.setItem('user', payload.form.name)
-          AXIOS.defaults.headers.common['Authorization'] = token
+          AXIOS.defaults.headers.common['Authorization'] = `${token.token_type} ${token.access_token}`
           commit('auth_success', pl)
           resolve(resp)
         })
