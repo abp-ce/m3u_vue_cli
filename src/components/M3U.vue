@@ -20,7 +20,7 @@
       <b-button @click="up_down(-1)">Up</b-button>
       <b-button @click="up_down(1)">Down</b-button>
       <b-button @click="delItems">Delete</b-button>
-      <b-button v-if="this.$store.getters.isLoggedIn" @click="save">Save</b-button>
+      <b-button v-if="isLoggedIn" @click="save">Save</b-button>
     </b-sidebar>
     <!--b-tabs v-model="tabIndex" content-class="mt-3">
       <b-tab title="Sample">
@@ -41,8 +41,8 @@
       </b-tab>
     </b-tabs-->
     <b-card no-body>
-      <b-card-body :title="details.title">
-        <b-card-sub-title v-if="details">
+      <b-card-body v-if="details" :title="details.title">
+        <b-card-sub-title>
           {{ details.disp_name }} 
           {{ details.pstart  | slice}}-{{ details.pstop | slice}}
           <b-button size="sm" @click="backward">Backward</b-button>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Hls from 'hls.js'
 import { AXIOS } from '../axios-common';
 
@@ -71,11 +72,21 @@ export default {
       perSelected: [],
       //personal_value: [],
       tabIndex: 0,
-      details: '',
+      details: null,
       prTime: new Date(),
       hls: new Hls(),
       rerender: false
     }
+  },
+  beforeMount: function() {
+      if (this.isLoggedIn) 
+        AXIOS.get('/load_personal')
+        .then(resp => this.personal = resp.data)
+        .catch(err => {
+          alert(err.response.data.detail)
+          this.$store.dispatch('logout')
+          this.personal = []
+        })
   },
   beforeUnmount: function() {
     this.hls.destroy()
@@ -144,9 +155,7 @@ export default {
     }
   },
   computed: {
-    /*personal: function() {
-      return this.channels.filter(chn => this.personal_value.includes(chn.value))
-    },*/
+    ...mapGetters(['isLoggedIn']),
     source: function() {
       if ( this.tabIndex == 0 ) { 
         if (this.selected) return this.selected[0]
@@ -156,6 +165,10 @@ export default {
     }
   },
   watch: {
+    isLoggedIn: function(val) {
+      //console.log('watch',val, oldVal)
+      if (!val) this.personal = []
+    },
     source: function() {
       if (!this.source) return
       if (this.hls) this.hls.destroy()
@@ -182,7 +195,8 @@ export default {
       }
       else if (this.personal) channel_name = this.personal.filter(chn => chn.value == this.source)[0].title
       const url = (channel_name + '/' + this.prTime.toISOString())
-      AXIOS.get(url).then(response => (this.details = response.data))
+      AXIOS.get(url).then(response => { if (response.data) this.details = response.data
+                                        else this.details = null })
       //this.$axios.get(url).then(response => (this.details = response.data))
     }
   }

@@ -15,7 +15,6 @@ export default new Vuex.Store({
       state.status = 'loading'
     },
     auth_success(state, payload){
-      console.log(payload)
       state.status = 'success'
       state.token = payload.token
       state.user = payload.user
