@@ -134,7 +134,13 @@ export default {
       console.log(AXIOS.defaults.headers.common['Authorization'])
       AXIOS.post('/save',this.personal)
       .then(resp => {
-        console.log(resp.data)
+        var fileURL = window.URL.createObjectURL(new Blob([resp.data]));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'list.m3u');
+        document.body.appendChild(fileLink);
+        fileLink.click();        
+        //console.log(resp.data)
       })
       .catch(err => {
         alert(err.response.data.detail)
