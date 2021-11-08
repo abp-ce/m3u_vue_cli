@@ -65,7 +65,7 @@ export default {
   name: 'M3U',
   data() {
     return {
-      sampleURL: "http://c04f014174dc.akciatv.org/playlists/uplist/b239d5cc573dedb8165e3e1c2c5ebcee/playlist.m3u8",
+      sampleURL: "http://topplay.do.am/FreeBestTV.m3u",
       channels: [],
       selected: [],
       personal: [],
