@@ -1,6 +1,7 @@
 <template>
   <b-container>
     <!--b-button v-b-toggle.sample class="float-left">Sample</b-button-->
+    <b-alert show dismissible>To watch please allow mixed content in your browser.</b-alert>
     <b-sidebar id="sample" title="Sample List" width="40%" shadow>
       <b-input-group prepend="Sample M3U list" class="mt-3">
         <b-form-input v-model="sampleURL" :placeholder="sampleURL" type='url'></b-form-input>
