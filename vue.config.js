@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/m3u_vue_cli/' : '/',
+  // publicPath: process.env.NODE_ENV === 'production' ? '/m3u_vue_cli/' : '/',
   chainWebpack: config => {
     config.module
       .rule('vue')
