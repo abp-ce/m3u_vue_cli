@@ -2,7 +2,7 @@
   <b-container>
     <!--b-button v-b-toggle.sample class="float-left">Sample</b-button-->
     <b-alert show dismissible>To watch please allow mixed content in your browser.</b-alert>
-    <b-sidebar id="sample" title="Sample List" width="40%" shadow>
+    <b-sidebar id="sample" title="Sample List" :width="sb_width" shadow>
       <b-input-group prepend="Sample M3U list" class="mt-3">
         <b-form-input v-model="sampleURL" :placeholder="sampleURL" type='url'></b-form-input>
         <b-input-group-append>
@@ -16,7 +16,7 @@
       <!--b-button @click="unselect">Unselect</b-button-->
     </b-sidebar>
     <!--b-button v-b-toggle.personal class="float-right">Personal</b-button-->
-    <b-sidebar id="personal" title="Personal List" width="40%" right shadow>
+    <b-sidebar id="personal" title="Personal List" :width="sb_width" right shadow>
       <b-form-select v-model="perSelected" :options="personal" text-field="title" @change="index(1)" multiple :select-size="16" :key="rerender"></b-form-select>
       <b-button v-b-tooltip.hover title="Up" @click="up_down(-1)"><b-icon-chevron-double-up></b-icon-chevron-double-up></b-button>
       <b-button v-b-tooltip.hover title="Down" @click="up_down(1)"><b-icon-chevron-double-down></b-icon-chevron-double-down></b-button>
@@ -76,7 +76,7 @@ export default {
       details: null,
       prTime: new Date(),
       hls: new Hls(),
-      rerender: false
+      rerender: false,
     }
   },
   beforeMount: function() {
@@ -99,6 +99,13 @@ export default {
     }
   },
   methods: {
+    isMobile: function() {
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     index: function(ind) {
       this.tabIndex = ind
     },
@@ -169,6 +176,10 @@ export default {
       }
       else if (this.perSelected) return this.perSelected[0]
       return ''
+    },
+    sb_width: function() {
+      if (this.isMobile()) return '100%'
+      else return '43%'
     }
   },
   watch: {

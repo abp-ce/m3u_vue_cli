@@ -10,7 +10,7 @@
         <b-nav-item v-if = "this.$store.getters.isLoggedIn" id="nav-user">
           <b-icon-person-check></b-icon-person-check>
         </b-nav-item>
-        <b-tooltip target="nav-user">{{this.$store.state.user}}</b-tooltip>
+        <b-tooltip v-if = "this.$store.getters.isLoggedIn" target="nav-user">{{this.$store.state.user}}</b-tooltip>
         <b-nav-item v-if = "this.$store.getters.isLoggedIn" v-b-tooltip.hover title="Logout" @click="logout">
           <b-icon-person-dash></b-icon-person-dash>
         </b-nav-item>
