@@ -53,8 +53,8 @@
           Retyped password differ from password
         </b-form-invalid-feedback>
       </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="primary" v-b-tooltip.hover title="Submit"><b-icon-person-check></b-icon-person-check></b-button>
+      <b-button type="reset" variant="danger" v-b-tooltip.hover title="Reset" ><b-icon-slash-circle></b-icon-slash-circle></b-button>
     </b-form>
   </b-container>
 </template>

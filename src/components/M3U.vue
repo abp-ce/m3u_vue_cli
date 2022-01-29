@@ -6,22 +6,22 @@
       <b-input-group prepend="Sample M3U list" class="mt-3">
         <b-form-input v-model="sampleURL" :placeholder="sampleURL" type='url'></b-form-input>
         <b-input-group-append>
-          <b-button @click="load">Load</b-button>
+          <b-button v-b-tooltip.hover title="Load" @click="load"><b-icon-download></b-icon-download></b-button>
         </b-input-group-append>
       </b-input-group>
       <!--b-card no-body-->
       <b-form-select v-model="selected" :options="channels" text-field="title" @change="index(0)" multiple :select-size="16"></b-form-select>
       <!--/b-card-->
-      <b-button @click="toPersonal">To personal</b-button>
+      <b-button v-b-tooltip.hover title="To Personal List" @click="toPersonal"><b-icon-chevron-double-right></b-icon-chevron-double-right></b-button>
       <!--b-button @click="unselect">Unselect</b-button-->
     </b-sidebar>
     <!--b-button v-b-toggle.personal class="float-right">Personal</b-button-->
     <b-sidebar id="personal" title="Personal List" width="40%" right shadow>
       <b-form-select v-model="perSelected" :options="personal" text-field="title" @change="index(1)" multiple :select-size="16" :key="rerender"></b-form-select>
-      <b-button @click="up_down(-1)">Up</b-button>
-      <b-button @click="up_down(1)">Down</b-button>
-      <b-button @click="delItems">Delete</b-button>
-      <b-button v-if="isLoggedIn" @click="save">Save</b-button>
+      <b-button v-b-tooltip.hover title="Up" @click="up_down(-1)"><b-icon-chevron-double-up></b-icon-chevron-double-up></b-button>
+      <b-button v-b-tooltip.hover title="Down" @click="up_down(1)"><b-icon-chevron-double-down></b-icon-chevron-double-down></b-button>
+      <b-button v-b-tooltip.hover title="Delete" @click="delItems"><b-icon-trash></b-icon-trash></b-button>
+      <b-button v-if="isLoggedIn" v-b-tooltip.hover title="Save" @click="save"><b-icon-archive></b-icon-archive></b-button>
     </b-sidebar>
     <!--b-tabs v-model="tabIndex" content-class="mt-3">
       <b-tab title="Sample">
@@ -46,9 +46,9 @@
         <b-card-sub-title>
           {{ details.disp_name }} 
           {{ details.pstart  | slice}}-{{ details.pstop | slice}}
-          <b-button size="sm" @click="backward">Backward</b-button>
-          <b-button size="sm" @click="now">Now</b-button>
-          <b-button size="sm" @click="forward">Forward</b-button>
+          <b-button size="sm" v-b-tooltip.hover title="Backward" @click="backward"><b-icon-chevron-double-left></b-icon-chevron-double-left></b-button>
+          <b-button size="sm" v-b-tooltip.hover title="Now" @click="now"><b-icon-clock></b-icon-clock></b-button>
+          <b-button size="sm" v-b-tooltip.hover title="Forward" @click="forward"><b-icon-chevron-double-right></b-icon-chevron-double-right></b-button>
         </b-card-sub-title>
         <b-card-text>{{ details.pdesc }}</b-card-text>
       </b-card-body>
