@@ -3,7 +3,7 @@
     <!--b-button v-b-toggle.sample class="float-left">Sample</b-button-->
     <b-alert show dismissible>To watch please allow mixed content in your browser.</b-alert>
     <b-sidebar id="sample" title="Sample List" :width="sb_width" shadow>
-      <b-input-group prepend="Sample M3U list" class="mt-3">
+      <b-input-group prepend="URL" class="mt-3">
         <b-form-input v-model="sampleURL" :placeholder="sampleURL" type='url'></b-form-input>
         <b-input-group-append>
           <b-button v-b-tooltip.hover title="Load" @click="load"><b-icon-download></b-icon-download></b-button>
