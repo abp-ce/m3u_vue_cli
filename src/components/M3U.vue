@@ -177,9 +177,15 @@ export default {
     ...mapGetters(['isLoggedIn']),
     source: function() {
       if ( this.tabIndex == 0 ) { 
-        if (this.selected) return this.selected[0]
+        if (this.selected) {
+          if (this.isMobile()) return 'iptv:' + this.selected[0]
+          return this.selected[0]
+        }
       }
-      else if (this.perSelected) return this.perSelected[0]
+      else if (this.perSelected) {
+        if (this.isMobile()) return 'iptv:' + this.perSelected[0]
+        return this.perSelected[0]
+      }
       return ''
     },
     sb_width: function() {
@@ -193,7 +199,7 @@ export default {
       if (!val) this.personal = []
     },
     source: function() {
-      if (!this.source) return
+      if (!this.source || this.isMobile()) return
       if (this.hls) this.hls.destroy()
       //console.log(this.source)
       this.prTime = new Date()
