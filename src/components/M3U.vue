@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <!--b-button v-b-toggle.sample class="float-left">Sample</b-button-->
-    <b-alert show dismissible>To watch please allow mixed content in your browser.</b-alert>
+    <b-alert v-if="!isMobile()" show dismissible>To watch please allow mixed content in your browser.</b-alert>
     <b-sidebar id="sample" title="Sample List" :width="sb_width" shadow>
       <b-input-group prepend="URL" class="mt-3">
         <b-form-input v-model="sampleURL" :placeholder="sampleURL" type='url'></b-form-input>
@@ -42,7 +42,11 @@
       </b-tab>
     </b-tabs-->
     <b-card no-body>
-      <b-card-body v-if="details" :title="details.title">
+      <b-card-body v-if="details">
+        <b-card-title v-if="isMobile()">
+          <b-link :href="source" disabled>{{details.title}}</b-link>
+        </b-card-title>
+        <b-card-title v-else>{{details.title}}</b-card-title>
         <b-card-sub-title>
           {{ details.disp_name }} 
           {{ details.pstart  | slice}}-{{ details.pstop | slice}}
@@ -52,7 +56,7 @@
         </b-card-sub-title>
         <b-card-text>{{ details.pdesc }}</b-card-text>
       </b-card-body>
-      <video ref="video" type="video/mp4" poster="//vjs.zencdn.net/v/oceans.png" preload="metadata" controls width="100%" ></video>
+      <video v-if="!isMobile()" ref="video" type="video/mp4" poster="//vjs.zencdn.net/v/oceans.png" preload="metadata" controls width="100%" ></video>
     </b-card>
   </b-container>
 </template>
@@ -105,6 +109,7 @@ export default {
       } else {
         return false;
       }
+      //return true
     },
     index: function(ind) {
       this.tabIndex = ind
