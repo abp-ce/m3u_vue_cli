@@ -44,7 +44,7 @@
     <b-card no-body>
       <b-card-body v-if="details">
         <b-card-title v-if="isMobile()">
-          <b-link :href="source" disabled>{{details.title}}</b-link>
+          <b-link :href="iptv_source" disabled>{{details.title}}</b-link>
         </b-card-title>
         <b-card-title v-else>{{details.title}}</b-card-title>
         <b-card-sub-title>
@@ -177,16 +177,13 @@ export default {
     ...mapGetters(['isLoggedIn']),
     source: function() {
       if ( this.tabIndex == 0 ) { 
-        if (this.selected) {
-          if (this.isMobile()) return 'iptv:' + this.selected[0]
-          return this.selected[0]
-        }
+        if (this.selected) return this.selected[0]
       }
-      else if (this.perSelected) {
-        if (this.isMobile()) return 'iptv:' + this.perSelected[0]
-        return this.perSelected[0]
-      }
+      else if (this.perSelected) return this.perSelected[0]
       return ''
+    },
+    iptv_source: function() {
+      return 'iptv:' + this.source
     },
     sb_width: function() {
       if (this.isMobile()) return '100%'
