@@ -44,7 +44,7 @@
     <b-card no-body>
       <b-card-body v-if="details">
         <b-card-title v-if="isMobile()">
-          <b-link :href="source" disabled>{{details.title}}</b-link>
+          <b-link :href="iptv_source" disabled>{{details.title}}</b-link>
         </b-card-title>
         <b-card-title v-else>{{details.title}}</b-card-title>
         <b-card-sub-title>
@@ -144,7 +144,7 @@ export default {
       this.personal = this.personal.filter(p => !this.perSelected.includes(p.value)) 
     },
     save: function() {
-      console.log(AXIOS.defaults.headers.common['Authorization'])
+      //console.log(AXIOS.defaults.headers.common['Authorization'])
       AXIOS.post('/save',this.personal)
       .then(resp => {
         var fileURL = window.URL.createObjectURL(new Blob([resp.data]));
@@ -183,6 +183,7 @@ export default {
       return ''
     },
     iptv_source: function() {
+      //console.log(this.source)
       return 'iptv:' + this.source
     },
     sb_width: function() {
@@ -196,11 +197,12 @@ export default {
       if (!val) this.personal = []
     },
     source: function() {
-      if (!this.source || this.isMobile()) return
+      if (!this.source) return
       if (this.hls) this.hls.destroy()
       //console.log(this.source)
       this.prTime = new Date()
       //console.log(this.prTime.getMonth()+1,this.prTime.getDate())
+      if (this.isMobile()) return
       let video = this.$refs["video"];
       if (Hls.isSupported()) {
         this.hls = new Hls();

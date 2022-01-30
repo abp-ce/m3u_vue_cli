@@ -43,7 +43,7 @@ export default new Vuex.Store({
           User.append('password',payload.form.password)
           path = '/token'
         }
-        console.log(User,path,payload.reg)
+        //console.log(User,path,payload.reg)
         AXIOS.post(path, User)
         .then(resp => {
           const token = resp.data
