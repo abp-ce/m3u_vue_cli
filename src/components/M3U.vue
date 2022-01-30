@@ -44,7 +44,7 @@
     <b-card no-body>
       <b-card-body v-if="details">
         <b-card-title v-if="isMobile()">
-          <b-link :href="iptv_source" disabled>{{details.title}}</b-link>
+          <b-link :href="source" disabled>{{details.title}}</b-link>
         </b-card-title>
         <b-card-title v-else>{{details.title}}</b-card-title>
         <b-card-sub-title>
@@ -181,10 +181,6 @@ export default {
       }
       else if (this.perSelected) return this.perSelected[0]
       return ''
-    },
-    iptv_source: function() {
-      //console.log(this.source)
-      return 'iptv:' + this.source
     },
     sb_width: function() {
       if (this.isMobile()) return '100%'
