@@ -44,7 +44,7 @@
     <b-card no-body>
       <b-card-body v-if="details">
         <b-card-title v-if="isMobile()">
-          <b-link :href="source" disabled>{{details.title}}</b-link>
+          <b-link :href="source">{{details.title}}</b-link>
         </b-card-title>
         <b-card-title v-else>{{details.title}}</b-card-title>
         <b-card-sub-title>
