@@ -61,6 +61,12 @@
 
 <script>
   export default {
+    name: 'Login',
+    metaInfo() {
+      let title = 'M3U Editor Login'
+      if (this.register) title = 'M3U Editor Register'
+      return { title: title }
+    },
     data() {
         return {
           form: {

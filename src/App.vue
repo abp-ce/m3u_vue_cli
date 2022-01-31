@@ -40,6 +40,16 @@
 
 <script>
 export default {
+  name: 'App',
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: 'M3U Editor',
+    // all titles will be injected into this template
+    // titleTemplate: '%s | M3U Editor'
+    meta: [
+      { name: 'description', content: 'IPTV M3U playlist editor.' }
+    ]
+  },
   methods: {
     logout: function() {
       this.$store.dispatch('logout')
@@ -48,7 +58,7 @@ export default {
 }
 </script>
 
-<style>
+<!--style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -69,4 +79,4 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-</style>
+</style-->

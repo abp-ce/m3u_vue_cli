@@ -21,7 +21,7 @@
       <b-button v-b-tooltip.hover title="Up" @click="up_down(-1)"><b-icon-chevron-double-up></b-icon-chevron-double-up></b-button>
       <b-button v-b-tooltip.hover title="Down" @click="up_down(1)"><b-icon-chevron-double-down></b-icon-chevron-double-down></b-button>
       <b-button v-b-tooltip.hover title="Delete" @click="delItems"><b-icon-trash></b-icon-trash></b-button>
-      <b-button v-if="isLoggedIn" v-b-tooltip.hover title="Save" @click="save"><b-icon-archive></b-icon-archive></b-button>
+      <b-button v-if="isLoggedIn" v-b-tooltip.hover title="Save and Download" @click="save"><b-icon-archive></b-icon-archive></b-button>
     </b-sidebar>
     <!--b-tabs v-model="tabIndex" content-class="mt-3">
       <b-tab title="Sample">
@@ -50,9 +50,9 @@
         <b-card-sub-title>
           {{ details.disp_name }} 
           {{ details.pstart  | slice}}-{{ details.pstop | slice}}
-          <b-button size="sm" v-b-tooltip.hover title="Backward" @click="backward"><b-icon-chevron-double-left></b-icon-chevron-double-left></b-button>
-          <b-button size="sm" v-b-tooltip.hover title="Now" @click="now"><b-icon-clock></b-icon-clock></b-button>
-          <b-button size="sm" v-b-tooltip.hover title="Forward" @click="forward"><b-icon-chevron-double-right></b-icon-chevron-double-right></b-button>
+          <b-button size="sm" v-b-tooltip.hover.bottomleft title="Backward" @click="backward"><b-icon-chevron-double-left></b-icon-chevron-double-left></b-button>
+          <b-button size="sm" v-b-tooltip.hover.bottom title="Now" @click="now"><b-icon-clock></b-icon-clock></b-button>
+          <b-button size="sm" v-b-tooltip.hover.bottomright title="Forward" @click="forward"><b-icon-chevron-double-right></b-icon-chevron-double-right></b-button>
         </b-card-sub-title>
         <b-card-text>{{ details.pdesc }}</b-card-text>
       </b-card-body>
