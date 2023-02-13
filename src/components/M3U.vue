@@ -98,7 +98,8 @@ export default {
   },
   filters: {
     slice: function(value) {
-      let tm = new Date(value + 'Z')
+      // let tm = new Date(value + 'Z')
+      let tm = new Date(value)
       return tm.getHours().toString().padStart(2,'0') + ':' + tm.getMinutes().toString().padStart(2,'0')
     }
   },
@@ -160,12 +161,14 @@ export default {
       })
     },
     backward: function() {
-      let t = new Date(this.details.pstart + 'Z')
+      let t = new Date(this.details.pstart)
+      // let t = new Date(this.details.pstart + 'Z')
       t.setMinutes(t.getMinutes() - 1);
       this.prTime = t
     },
     forward: function() {
-      let t = new Date(this.details.pstop + 'Z')
+      let t = new Date(this.details.pstop)
+      // let t = new Date(this.details.pstop + 'Z')
       t.setMinutes(t.getMinutes() + 1);
       this.prTime = t
     },

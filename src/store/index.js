@@ -33,17 +33,16 @@ export default new Vuex.Store({
         commit('auth_request')
         let User = null
         let path = null
+        User = new FormData();
+        User.append('username',payload.form.name)
+        User.append('password',payload.form.password)
         if (payload.reg) {
-          User = {'username': payload.form.name,'email': payload.form.email, 'password': payload.form.password }
-          path = '/register'
+          User.append('email', payload.form.email)
+          path = '/auth/register'
         }
         else {
-          User = new FormData();
-          User.append('username',payload.form.name)
-          User.append('password',payload.form.password)
-          path = '/token'
+          path = '/auth/token'
         }
-        //console.log(User,path,payload.reg)
         AXIOS.post(path, User)
         .then(resp => {
           const token = resp.data
