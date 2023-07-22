@@ -1,8 +1,8 @@
 module.exports = {
-  // publicPath: process.env.NODE_ENV === 'production' ? '/m3u_vue_cli/' : '/',
-// devServer: {
-//     disableHostCheck: true
-// },
+  publicPath: process.env.NODE_ENV === 'production' ? '/m3u_vue_cli/' : '/',
+devServer: {
+    disableHostCheck: true
+},
 chainWebpack: config => {
     config.module
       .rule('vue')
